@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import {Button, Input} from "antd";
+import {Button, Input, Modal, Checkbox} from "antd";
 import {debounce} from "lodash";
 
-const  list = [
+const  initlist = [
     {
         id : 0,
         tille : "eat"
@@ -17,25 +17,64 @@ const  list = [
     },
 ]
 function App() {
+    const [search, setSearch] = useState('')
+
+    const [visible, setvisible] = useState(false)
+
+    const [thing, sething] = useState('')
+
+    const [list, setlist] = useState(initlist)
 
     const renderList = () => {
      const l =  list.map(item => {
           return(
               <div key={item.id}>
                   <div>{item.tille}</div>
+                  <div>
+                      <Checkbox>Done</Checkbox>
+                  </div>
               </div>
           )
        })
-      //  l.push()
+        // l.push(
+        //     <div key={-1} onClick={handleAdd}>
+        //         <Button type="primary">Add</Button>
+        //     </div>
+        // )
         return l
     }
 
     const handleAdd = () => {
-       console.log('handleAdd')
+        //open modal
+        setvisible(true)
+       //console.log('handleAdd')
     }
 
-    const [search, setSearch] = useState('')
-    console.log(search)
+    // handleOk
+    const handleOkCreateModel = () => {
+        if (thing.length > 0) {
+            const  item = {
+                id : list.length,
+                tittle : thing
+            }
+
+            setlist([
+                item,
+                ...list
+            ])
+
+            setvisible(false);
+            sething('')
+            //call api
+        }
+    };
+    //handleCancel
+    const handleCancel = () => {
+        setvisible(false);
+        sething('')
+    };
+
+    //   console.log(search)
     
     const handleSearch = (e) => {
       //  setSearch(e.target.value)
@@ -50,16 +89,30 @@ function App() {
 
   return (
     <div className="container">
+
       <Input onChange={handleSearch} placeholder="Please enter something."/>
+
         <div>
                 {renderList()}
 
-            <div onClick={handleAdd}>
-                <Button type="primary">Add</Button>
-            </div>
-
         </div>
 
+        <Modal
+               title="Basic Modal"
+               visible={visible}
+               onOk={handleOkCreateModel}
+               onCancel={handleCancel}
+        >
+           <div>
+               <label>What do you do?</label>
+               <Input value={thing} onChange={e => sething(e.target.value)} placeholder="Enter something."/>
+           </div>
+        </Modal>
+
+
+        <div onClick={handleAdd}>
+            <Button type="primary">Add</Button>
+        </div>
     </div>
   );
 }
