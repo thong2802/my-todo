@@ -5,12 +5,20 @@
 ````
 install reactjs : npx create-react-app my-todo
 ````
-- Reactjs boostrap
+- Reactjs boostrap (https://react-bootstrap.github.io)
+````
+npm install react-bootstrap bootstrap@5.1.3
+````
 - antd
 ````
 install ant.design : npm install antd
-run : 
+
 ````
+- lodash
+````
+https://lodash.com
+````
+
 
 ## backend
 
